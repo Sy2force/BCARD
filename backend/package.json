@@ -15,8 +15,7 @@
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write src/**/*.ts",
     "clean": "rm -rf dist",
-    "prebuild": "npm run clean",
-    "postinstall": "npm run build"
+    "prebuild": "npm run clean"
   },
   "keywords": [
     "professional-network",

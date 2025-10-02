@@ -2,9 +2,9 @@ version: '3.8'
 
 services:
   mongodb:
-    image: mongo:7.0
+    image: mongo:6.0
     container_name: facework-mongodb
-    restart: always
+    restart: unless-stopped
     ports:
       - "27017:27017"
     environment:
@@ -15,17 +15,19 @@ services:
       - facework-network
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: facework-backend
-    restart: always
+    restart: unless-stopped
     ports:
       - "5001:5001"
     environment:
       - NODE_ENV=development
-      - MONGODB_URI=mongodb://mongodb:27017/facework
-      - JWT_SECRET=your-super-secret-jwt-key-here
-      - JWT_EXPIRES_IN=7d
       - PORT=5001
+      - MONGODB_URI=mongodb://mongodb:27017/facework
+      - JWT_SECRET=dev_jwt_secret_key_32_characters_min
+      - FRONTEND_URL=http://localhost:5173
     depends_on:
       - mongodb
     networks:
@@ -35,15 +37,22 @@ services:
       - /app/node_modules
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: facework-frontend
-    restart: always
+    restart: unless-stopped
     ports:
-      - "3000:80"
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:5001/api
     depends_on:
       - backend
     networks:
       - facework-network
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
 
 volumes:
   mongodb_data:

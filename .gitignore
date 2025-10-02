@@ -71,3 +71,6 @@ workbox-*.js
 
 # Documentation généré
 BACKEND_DOCUMENTATION.md
+
+# Render deployment
+.render/

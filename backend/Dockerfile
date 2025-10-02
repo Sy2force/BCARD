@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:18
 
 WORKDIR /app
 
@@ -6,10 +6,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm install --production
 
 # Copy application files
 COPY . .
+
+# Build TypeScript
+RUN npm run build
 
 # Create logs directory
 RUN mkdir -p src/logs
@@ -18,4 +21,4 @@ RUN mkdir -p src/logs
 EXPOSE 5001
 
 # Start the application
-CMD ["node", "src/server.js"]
+CMD ["npm", "start"]
