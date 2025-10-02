@@ -1,0 +1,68 @@
+[
+  {
+    "title": "Tech Solutions Ltd",
+    "subtitle": "Software Development",
+    "description": "Professional software development services for businesses of all sizes. Web, mobile, and cloud solutions.",
+    "phone": "0501234567",
+    "email": "info@techsolutions.com",
+    "web": "https://www.techsolutions.com",
+    "image": {
+      "url": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d",
+      "alt": "Tech office"
+    },
+    "address": {
+      "country": "Israel",
+      "city": "Tel Aviv",
+      "street": "Rothschild",
+      "houseNumber": 1,
+      "state": "",
+      "zip": 6688301
+    },
+    "bizNumber": 1000001,
+    "likes": []
+  },
+  {
+    "title": "Creative Design Studio",
+    "subtitle": "Graphic Design & Branding",
+    "description": "Award-winning design studio specializing in brand identity, web design, and marketing materials.",
+    "phone": "0502345678",
+    "email": "hello@creativestudio.com",
+    "web": "https://www.creativestudio.com",
+    "image": {
+      "url": "https://images.unsplash.com/photo-1561070791-2526d30994b5",
+      "alt": "Design studio"
+    },
+    "address": {
+      "country": "Israel",
+      "city": "Tel Aviv",
+      "street": "Dizengoff",
+      "houseNumber": 100,
+      "state": "",
+      "zip": 6439601
+    },
+    "bizNumber": 1000002,
+    "likes": []
+  },
+  {
+    "title": "Digital Marketing Pro",
+    "subtitle": "SEO & Social Media",
+    "description": "Boost your online presence with our comprehensive digital marketing services.",
+    "phone": "0503456789",
+    "email": "contact@digitalmarketing.com",
+    "web": "https://www.digitalmarketing.com",
+    "image": {
+      "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
+      "alt": "Marketing dashboard"
+    },
+    "address": {
+      "country": "Israel",
+      "city": "Jerusalem",
+      "street": "King George",
+      "houseNumber": 10,
+      "state": "",
+      "zip": 9426208
+    },
+    "bizNumber": 1000003,
+    "likes": []
+  }
+]

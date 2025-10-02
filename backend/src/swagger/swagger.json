@@ -1,0 +1,580 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "FaceWork API",
+    "version": "1.0.0",
+    "description": "Professional Network Cards Platform API Documentation",
+    "contact": {
+      "name": "FaceWork Support",
+      "email": "support@facework.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5001/api",
+      "description": "Development server"
+    },
+    {
+      "url": "https://api.facework.com/api",
+      "description": "Production server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "required": ["name", "email", "password", "phone", "address"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User ID"
+          },
+          "name": {
+            "type": "object",
+            "properties": {
+              "first": { "type": "string", "minLength": 2, "maxLength": 256 },
+              "middle": { "type": "string", "maxLength": 256 },
+              "last": { "type": "string", "minLength": 2, "maxLength": 256 }
+            }
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "pattern": "^0[2-9]\\d{7,8}$"
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "country": { "type": "string", "maxLength": 256 },
+              "city": { "type": "string", "maxLength": 256 },
+              "street": { "type": "string", "maxLength": 256 },
+              "houseNumber": { "type": "number", "minimum": 1 },
+              "state": { "type": "string", "maxLength": 256 },
+              "zip": { "type": "number" }
+            }
+          },
+          "isBusiness": {
+            "type": "boolean",
+            "default": false
+          },
+          "isAdmin": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "Card": {
+        "type": "object",
+        "required": ["title", "subtitle", "description", "phone", "email", "address"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Card ID"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 256
+          },
+          "subtitle": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 1024
+          },
+          "phone": {
+            "type": "string",
+            "pattern": "^0[2-9]\\d{7,8}$"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "web": {
+            "type": "string",
+            "format": "uri"
+          },
+          "image": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string", "format": "uri" },
+              "alt": { "type": "string", "maxLength": 256 }
+            }
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "country": { "type": "string", "maxLength": 256 },
+              "city": { "type": "string", "maxLength": 256 },
+              "street": { "type": "string", "maxLength": 256 },
+              "houseNumber": { "type": "number", "minimum": 1 },
+              "state": { "type": "string", "maxLength": 256 },
+              "zip": { "type": "number" }
+            }
+          },
+          "bizNumber": {
+            "type": "number",
+            "minimum": 1000000,
+            "maximum": 9999999
+          },
+          "likes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "user_id": {
+            "type": "string",
+            "description": "Owner user ID"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Register new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "user": { "$ref": "#/components/schemas/User" },
+                    "token": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get all users (Admin only)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "users": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/User" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": { "type": "string", "format": "email" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "user": { "$ref": "#/components/schemas/User" },
+                    "token": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/profile": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get current user profile",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "User profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "user": { "$ref": "#/components/schemas/User" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user by ID",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "user": { "$ref": "#/components/schemas/User" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Users"],
+        "summary": "Update user",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/User" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "user": { "$ref": "#/components/schemas/User" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Toggle business status",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Business status toggled"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Delete user",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted"
+          }
+        }
+      }
+    },
+    "/cards": {
+      "get": {
+        "tags": ["Cards"],
+        "summary": "Get all cards",
+        "responses": {
+          "200": {
+            "description": "List of cards",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "cards": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Card" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Cards"],
+        "summary": "Create new card (Business only)",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Card" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Card created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "card": { "$ref": "#/components/schemas/Card" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cards/my-cards": {
+      "get": {
+        "tags": ["Cards"],
+        "summary": "Get user's own cards",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "List of user's cards"
+          }
+        }
+      }
+    },
+    "/cards/{id}": {
+      "get": {
+        "tags": ["Cards"],
+        "summary": "Get card by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Card details"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Cards"],
+        "summary": "Update card",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Card" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Card updated"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Cards"],
+        "summary": "Delete card",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Card deleted"
+          }
+        }
+      }
+    },
+    "/cards/{id}/like": {
+      "patch": {
+        "tags": ["Cards"],
+        "summary": "Toggle like on card",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Like toggled"
+          }
+        }
+      }
+    },
+    "/stats": {
+      "get": {
+        "tags": ["Analytics"],
+        "summary": "Get platform statistics",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Platform statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalUsers": { "type": "number" },
+                    "totalCards": { "type": "number" },
+                    "businessUsers": { "type": "number" },
+                    "activeToday": { "type": "number" },
+                    "cardsPerMonth": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "month": { "type": "string" },
+                          "count": { "type": "number" }
+                        }
+                      }
+                    },
+                    "userGrowth": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "month": { "type": "string" },
+                          "users": { "type": "number" }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Users",
+      "description": "User management endpoints"
+    },
+    {
+      "name": "Cards",
+      "description": "Business card management endpoints"
+    },
+    {
+      "name": "Analytics",
+      "description": "Platform analytics and statistics"
+    }
+  ]
+}

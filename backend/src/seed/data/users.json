@@ -1,0 +1,74 @@
+[
+  {
+    "name": {
+      "first": "John",
+      "middle": "Michael",
+      "last": "Doe"
+    },
+    "phone": "0501234567",
+    "email": "user@example.com",
+    "password": "User@1234",
+    "image": {
+      "url": "https://cdn.pixabay.com/photo/2016/04/01/10/11/avatar-1299805_960_720.png",
+      "alt": "Regular user avatar"
+    },
+    "address": {
+      "state": "",
+      "country": "Israel",
+      "city": "Tel Aviv",
+      "street": "Rothschild",
+      "houseNumber": 1,
+      "zip": 6688301
+    },
+    "isBusiness": false,
+    "isAdmin": false
+  },
+  {
+    "name": {
+      "first": "Jane",
+      "middle": "Sarah",
+      "last": "Smith"
+    },
+    "phone": "0502345678",
+    "email": "biz@example.com",
+    "password": "Biz@1234",
+    "image": {
+      "url": "https://cdn.pixabay.com/photo/2016/04/01/10/11/avatar-1299805_960_720.png",
+      "alt": "Business owner avatar"
+    },
+    "address": {
+      "state": "",
+      "country": "Israel",
+      "city": "Tel Aviv",
+      "street": "Dizengoff",
+      "houseNumber": 100,
+      "zip": 6439601
+    },
+    "isBusiness": true,
+    "isAdmin": false
+  },
+  {
+    "name": {
+      "first": "Admin",
+      "middle": "",
+      "last": "User"
+    },
+    "phone": "0503456789",
+    "email": "admin@example.com",
+    "password": "Admin@1234",
+    "image": {
+      "url": "https://cdn.pixabay.com/photo/2016/04/01/10/11/avatar-1299805_960_720.png",
+      "alt": "Admin user avatar"
+    },
+    "address": {
+      "state": "",
+      "country": "Israel",
+      "city": "Jerusalem",
+      "street": "King George",
+      "houseNumber": 10,
+      "zip": 9426208
+    },
+    "isBusiness": true,
+    "isAdmin": true
+  }
+]
