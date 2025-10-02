@@ -1,7 +1,6 @@
-/**
- * FaceWork API Server
- * Point d'entrée principal de l'application
- */
+// Serveur principal FaceWork
+// Ce fichier démarre l'API REST et configure tous les middlewares
+// Port par défaut : 5001
 
 import dotenv from 'dotenv';
 import express from 'express';
@@ -20,6 +19,7 @@ import fileLogger from './middleware/fileLogger';
 // Import des routes
 import usersRoutes from './routes/users.routes';
 import cardsRoutes from './routes/cards.routes';
+import healthRoutes from './routes/health.routes';
 
 dotenv.config();
 
@@ -35,20 +35,33 @@ if (!fs.existsSync(logsDir)) {
   fs.mkdirSync(logsDir, { recursive: true });
 }
 
-// Configuration CORS avec whitelist
+// Configuration CORS pour accepter les requêtes du frontend
 const corsOptions = {
   origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+    // Liste des origines autorisées
     const whitelist = [
       process.env.FRONTEND_URL || 'http://localhost:5173',
-      'http://localhost:3000',
       'http://localhost:5173',
-      'http://192.168.1.53:5173'
+      'http://localhost:3000',
+      'https://facework.vercel.app',  // Production Vercel
+      'https://facework-*.vercel.app' // Preview deployments Vercel
     ];
-    if (!origin || whitelist.indexOf(origin) !== -1) {
+    
+    // Accepter les requêtes sans origine (Postman, curl, etc.) ou dans la whitelist
+    if (!origin || whitelist.some(allowed => 
+      origin === allowed || 
+      (allowed.includes('*') && origin.match(new RegExp(allowed.replace('*', '.*'))))
+    )) {
       callback(null, true);
     } else {
-      console.log('CORS blocked origin:', origin);
-      callback(null, true); // Temporairement autoriser toutes les origines pour debug
+      // En production, bloquer les origines non autorisées
+      if (process.env.NODE_ENV === 'production') {
+        callback(new Error('CORS: Origine non autorisée'));
+      } else {
+        // En dev, on log mais on autorise pour faciliter les tests
+        console.log('CORS warning - origine non whitelist:', origin);
+        callback(null, true);
+      }
     }
   },
   credentials: true
@@ -74,18 +87,10 @@ if (process.env.NODE_ENV !== 'production') {
 }
 app.use(fileLogger);
 
-// Routes API
+// Routes
+app.use('/api', healthRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/cards', cardsRoutes);
-
-// Route de santé
-app.get('/api/health', (req: express.Request, res: express.Response) => {
-  res.json({ 
-    status: 'OK', 
-    message: 'FaceWork API is running',
-    timestamp: new Date().toISOString()
-  });
-});
 
 // 404 handler
 app.use((req: express.Request, res: express.Response) => {

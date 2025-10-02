@@ -1,242 +1,292 @@
-# FaceWork - Plateforme de cartes de visite professionnelles
+# FaceWork - Plateforme de cartes de visite numériques
 
-FaceWork est une application web complète permettant de créer, gérer et partager des cartes de visite numériques. Elle a été développée avec des technologies modernes côté frontend et backend, dans le but de fournir une plateforme sécurisée, fluide et responsive. Ce projet s'adresse aux professionnels, entreprises et administrateurs souhaitant digitaliser leur réseau de contacts.
+Bonjour ! FaceWork est une application web que j'ai développée pour moderniser l'échange de cartes de visite professionnelles. Plus besoin de cartes papier qui traînent dans les tiroirs - tout se passe maintenant en ligne, de manière sécurisée et pratique.
 
----
+## Le projet en quelques mots
 
-## Objectifs du projet
+FaceWork permet aux professionnels de :
+- Créer des cartes de visite numériques avec toutes leurs informations
+- Les partager via un simple lien ou QR code
+- Gérer plusieurs cartes pour différentes activités
+- Exporter en PDF ou vCard pour l'ajout aux contacts
 
-- Offrir une alternative moderne aux cartes de visite papier
-- Permettre aux utilisateurs de gérer leur profil et cartes
-- Créer une interface claire, multilingue et responsive
-- Proposer une solution prête pour un déploiement professionnel
-
----
-
-## Fonctionnalités principales
-
-### Utilisateurs
-- Inscription et connexion via JWT sécurisé (avec refresh tokens)
-- Rôles utilisateurs : simple utilisateur, business et administrateur
-- Récupération de mot de passe
-- Gestion complète du profil
-
-### Cartes de visite
-- Création de cartes (pour les utilisateurs Business/Admin)
-- Modification, suppression, ajout aux favoris
-- Partage via QR code et lien unique
-- Export en format PDF ou vCard
-
-### Interface
-- Multilingue (Français, Anglais, Hébreu)
-- Mode sombre / clair
-- Design moderne et responsive (Mobile First)
-- Installation PWA possible
-
-### Administration
-- Dashboard administrateur
-- Statistiques utilisateurs et cartes
-- Gestion globale des données
+L'application est découpée en deux parties : un frontend React moderne et un backend Node.js robuste. Le tout est prêt à être déployé sur Vercel (frontend) et Render (backend).
 
 ---
 
-## Structure du projet
+## Ce que peut faire l'application
 
-```
-PROCARDS/
-├── backend/            # Serveur Node.js + Express + MongoDB
-│   └── src/
-│       ├── config/         # Connexion DB, Swagger, etc.
-│       ├── controllers/    # Logique métier
-│       ├── middleware/     # Authentification, erreurs, validation
-│       ├── models/         # Schémas Mongoose (User, Card)
-│       ├── routes/         # Routes API (users, cards, stats)
-│       ├── utils/          # Fonctions utiles (JWT, export, etc.)
-│       ├── validators/     # Schémas Joi
-│       └── seed/           # Données de test
-│   ├── tests/              # Tests backend (Jest)
-│   └── Dockerfile
-│
-├── frontend/          # Interface React + TypeScript + Tailwind
-│   └── src/
-│       ├── pages/         # Pages principales
-│       ├── components/    # Composants réutilisables
-│       ├── context/       # Contexte global (auth, thème)
-│       ├── api/           # Configuration axios
-│       └── i18n/          # Traductions multilingues
-│   ├── tests/              # Tests frontend (Vitest)
-│   └── Dockerfile
-│
-├── docker-compose.yml      # Lancement des services (MongoDB, front, back)
-├── docker-compose.prod.yml # Configuration Docker pour production
-├── LICENSE                 # Licence MIT du projet
-└── README.md               # Ce fichier
-```
+### Pour les utilisateurs standards
+- Créer un compte et se connecter de manière sécurisée
+- Consulter les cartes de visite publiques
+- Ajouter des cartes en favoris pour les retrouver facilement
+- Basculer entre mode clair et sombre selon les préférences
+
+### Pour les comptes Business
+- Tout ce que peut faire un utilisateur standard
+- Créer ses propres cartes de visite professionnelles
+- Modifier ou supprimer ses cartes à tout moment
+- Générer un QR code automatiquement pour chaque carte
+- Voir les statistiques de consultation
+
+### Pour l'administrateur
+- Accès complet à toutes les fonctionnalités
+- Tableau de bord avec statistiques globales
+- Gestion des utilisateurs et des cartes
+- Monitoring de l'activité de la plateforme
+
+### Petits plus sympathiques
+- Interface disponible en 3 langues (Anglais, Français, Hébreu)
+- Application installable sur mobile (PWA)
+- Thème sombre pour les yeux sensibles
+- Export des cartes en PDF ou format vCard
 
 ---
 
-## Installation rapide
+## Technologies utilisées
 
-> **Note**: Le fichier `vercel.json` se trouve dans le répertoire `frontend/` pour la configuration du déploiement Vercel.
+### Côté Frontend
+- **React 18** avec TypeScript pour une application robuste
+- **Vite** comme bundler, super rapide pour le développement
+- **Tailwind CSS** pour le style (plus besoin d'écrire du CSS classique)
+- **Framer Motion** pour des animations fluides
+- **i18next** pour gérer les traductions
+- **Axios** pour communiquer avec le backend
+- **React Router** pour la navigation
 
-## Installation
+### Côté Backend
+- **Node.js** avec Express pour le serveur
+- **MongoDB** avec Mongoose pour la base de données
+- **TypeScript** partout pour éviter les bugs
+- **JWT** pour l'authentification sécurisée
+- **Joi** pour valider les données reçues
+- **bcryptjs** pour hasher les mots de passe
+- **Swagger** pour documenter l'API
 
-### Prérequis
+### Tests et qualité
+- **Jest** pour les tests backend
+- **Vitest** pour les tests frontend
+- **ESLint** pour un code propre
+- **Prettier** pour le formatage
 
-- Node.js 18+
-- MongoDB (local ou Atlas)
-- Git
+## Comment faire marcher tout ça
 
-### Étapes
+### Ce dont vous avez besoin
 
-1. Cloner le projet :
+- Node.js version 18 ou plus (pour faire tourner le code)
+- MongoDB installé localement ou un compte MongoDB Atlas (gratuit)
+- Git pour récupérer le code
+
+### Installation pas à pas
+
+1. **Récupérer le projet**
 ```bash
 git clone https://github.com/Sy2force/BCARD.git
 cd PROCARDS
 ```
 
-2. Installer les dépendances :
+2. **Installer les dépendances**
 ```bash
-cd backend && npm install
-cd ../frontend && npm install
+# Backend
+cd backend
+npm install
+cp .env.example .env
+
+# Frontend
+cd ../frontend
+npm install
+cp .env.example .env
 ```
 
-3. Configurer les variables d’environnement :
+3. **Configurer la base de données**
 
-Backend `.env`
-```
-PORT=5001
-MONGODB_URI=mongodb://127.0.0.1:27017/facework
-JWT_SECRET=xxx
-FRONTEND_URL=http://localhost:5173
-```
+Si vous avez MongoDB en local, rien à faire. Sinon, créez un compte gratuit sur [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) et récupérez votre URL de connexion.
 
-Frontend `.env`
-```
-VITE_API_URL=http://localhost:5001/api
-```
+4. **Modifier les fichiers .env**
 
-4. Initialiser les données :
+Dans `backend/.env` :
+- Remplacez `JWT_SECRET` par une vraie clé secrète (32 caractères minimum)
+- Si vous utilisez MongoDB Atlas, remplacez `MONGODB_URI`
+
+Dans `frontend/.env` :
+- Normalement rien à changer pour le développement local
+
+5. **Ajouter des données de test**
 ```bash
-cd backend && npm run seed
+cd backend
+npm run seed
 ```
 
-5. Lancer le projet :
+Cela crée 3 utilisateurs de test :
+- Admin : admin@example.com / Admin@1234
+- Business : biz@example.com / Biz@1234
+- User : user@example.com / User@1234
+
+6. **Lancer l'application**
+
+Ouvrez deux terminaux :
+
 ```bash
-# Terminal 1
-cd backend && npm run dev
+# Terminal 1 - Backend
+cd backend
+npm run dev
+# Le serveur démarre sur http://localhost:5001
 
-# Terminal 2
-cd frontend && npm run dev
+# Terminal 2 - Frontend
+cd frontend
+npm run dev
+# L'application est sur http://localhost:5173
 ```
 
-Accessible sur `http://localhost:5173`
+Et voilà ! Ouvrez votre navigateur sur http://localhost:5173 et connectez-vous avec un des comptes de test.
 
 ---
 
-## Lancement avec Docker
+## Avec Docker (plus simple)
 
-### Développement
+Si vous préférez, Docker s'occupe de tout installer pour vous :
 
 ```bash
+# Démarrer tous les services
 docker-compose up --build
-```
 
-Cela démarre automatiquement :
-- Frontend : http://localhost:5173
-- Backend : http://localhost:5001
-- MongoDB : mongodb://localhost:27017/facework
-
-Pour arrêter :
-```bash
+# Arrêter proprement
 docker-compose down
 ```
 
-### Production
+L'application se lance sur les mêmes ports (5173 pour le frontend, 5001 pour le backend).
+
+## Documentation de l'API
+
+Les routes principales de l'API :
+
+### Utilisateurs (`/api/users`)
+- `POST /` - Créer un compte
+- `POST /login` - Se connecter
+- `GET /profile` - Récupérer son profil
+- `PUT /:id` - Modifier un profil
+- `DELETE /:id` - Supprimer un compte
+
+### Cartes (`/api/cards`)
+- `GET /` - Liste des cartes publiques
+- `POST /` - Créer une carte (Business/Admin)
+- `GET /my-cards` - Mes cartes
+- `PUT /:id` - Modifier une carte
+- `PATCH /:id/like` - Liker/unliker
+- `GET /:id/export?format=pdf` - Exporter en PDF
+- `DELETE /:id` - Supprimer une carte
+
+### Documentation interactive
+
+Une fois le backend lancé, allez sur http://localhost:5001/api-docs pour voir la documentation Swagger interactive.
+
+## Lancer les tests
+
+Pour vérifier que tout fonctionne :
 
 ```bash
-# Créer un fichier .env avec les variables de production
-cp .env.example .env.prod
-
-# Lancer en mode production
-docker-compose -f docker-compose.prod.yml up --build -d
-```
-
----
-
-## Endpoints principaux
-
-- `/api/users` - CRUD utilisateurs
-- `/api/cards` - CRUD cartes
-- `/api/stats` - Statistiques (admin uniquement)
-- `/api-docs` - Swagger UI (documentation API)
-
-Toutes les routes sécurisées nécessitent :
-```
-Authorization: Bearer <token JWT>
-```
-
----
-
-## Tests
-
-### Backend
-```bash
+# Tests backend
 cd backend
 npm test
-```
 
-### Frontend
-```bash
+# Tests frontend
 cd frontend
 npm test
 ```
 
----
+## Déployer en production
 
-## Comptes de test
+### Backend sur Render
 
-Après exécution de la seed :
+1. Créez un compte sur [Render](https://render.com)
+2. Nouveau Web Service > Connecter votre repo GitHub
+3. Configuration :
+   - Build Command: `npm install && npm run build`
+   - Start Command: `npm start`
+   - Root Directory: `backend`
+4. Variables d'environnement à ajouter :
+   - `MONGODB_URI_PROD` : votre URL MongoDB Atlas
+   - `JWT_SECRET` : une clé secrète forte
+   - `FRONTEND_URL` : https://votre-app.vercel.app
+   - `NODE_ENV` : production
 
-| Rôle       | Email                    | Mot de passe   |
-|------------|--------------------------|----------------|
-| Admin      | admin@facework.com       | Admin@1234     |
-| Business   | business@facework.com    | Business@1234  |
-| Utilisateur| user@facework.com        | User@1234      |
+### Frontend sur Vercel
 
----
+1. Créez un compte sur [Vercel](https://vercel.com)
+2. Import Git Repository > Sélectionnez votre repo
+3. Configuration :
+   - Framework Preset: Vite
+   - Root Directory: `frontend`
+   - Build Command: `npm run build`
+4. Variables d'environnement :
+   - `VITE_API_URL` : https://votre-backend.onrender.com/api
 
-## Déploiement
+### URLs de production
 
-### Backend (Render)
-- Connecter le repo GitHub
-- Variables nécessaires :
-  - `MONGODB_URI_PROD`
-  - `JWT_SECRET`
-  - `FRONTEND_URL`
-- Commandes :
-  - Build : `npm install`
-  - Start : `npm start`
+Une fois déployé, votre application sera accessible :
+- Frontend : `https://facework.vercel.app` (ou votre nom personnalisé)
+- Backend : `https://facework-backend.onrender.com`
+- API : `https://facework-backend.onrender.com/api`
 
-### Frontend (Vercel)
-- Répertoire racine : `frontend`
-- Build : `npm run build`
-- Variables :
-  - `VITE_API_URL=https://<url-backend>/api`
+## Sécurité mise en place
 
----
+J'ai pris soin de sécuriser l'application :
+- Mots de passe hashés avec bcrypt (impossible de les récupérer en clair)
+- Tokens JWT pour l'authentification (expire après 7 jours)
+- Validation de toutes les données avec Joi
+- Protection contre les attaques par force brute (rate limiting)
+- Headers sécurisés avec Helmet
+- CORS configuré pour accepter seulement les domaines autorisés
 
-## Sécurité
+## Structure des fichiers
 
-- JWT sécurisé
-- Hachage des mots de passe (bcrypt)
-- Validation des entrées (Joi)
-- Rate limiting
-- Helmet, CORS, .env
-- Authentification par rôles
+```
+FaceWork/
+├── backend/
+│   ├── src/           # Code source TypeScript
+│   ├── tests/         # Tests Jest
+│   ├── .env.example   # Template variables d'environnement
+│   └── package.json   # Dépendances et scripts
+├── frontend/
+│   ├── src/           # Code React/TypeScript
+│   ├── public/        # Fichiers statiques
+│   ├── .env.example   # Template variables
+│   └── vercel.json    # Config Vercel
+├── docker-compose.yml # Config Docker local
+└── README.md         # Ce fichier
+```
 
----
+## Commandes utiles
+
+```bash
+# Backend
+npm run dev         # Mode développement avec hot-reload
+npm run build       # Compiler TypeScript
+npm run start       # Démarrer en production
+npm run seed        # Ajouter données de test
+npm run test        # Lancer les tests
+npm run lint        # Vérifier le code
+
+# Frontend
+npm run dev         # Mode développement
+npm run build       # Build pour production
+npm run preview     # Prévisualiser le build
+npm run test        # Tests Vitest
+npm run lint        # Vérifier le code
+```
+
+## Besoin d'aide ?
+
+Si vous rencontrez des problèmes :
+1. Vérifiez que MongoDB est bien lancé
+2. Vérifiez les fichiers .env (surtout JWT_SECRET et MONGODB_URI)
+3. Vérifiez que les ports 5001 et 5173 sont libres
+4. Consultez les logs dans la console
 
 ## Licence
 
-Ce projet est sous licence MIT.
+Projet sous licence MIT - vous pouvez l'utiliser librement pour vos projets personnels ou commerciaux.
+
+---
+
+Développé avec passion pour moderniser l'échange de cartes de visite professionnelles.

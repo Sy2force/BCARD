@@ -10,14 +10,15 @@ coverage/
 # Production
 build/
 dist/
+dev-dist/
 
-# Misc
-.DS_Store
+# Environment
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.prod
 
 # Logs
 logs/
@@ -28,26 +29,24 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# Editor
+.vscode/
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.swp
 
 # OS
+.DS_Store
 Thumbs.db
 
 # MongoDB
 *.lock
 *.pid
 mongodb-data/
-
-# Development files
-frontend/dev-dist/
 
 # Build artifacts
 backend/dist/
@@ -58,7 +57,17 @@ frontend/build/
 .cache/
 .parcel-cache/
 .vite/
+*.tsbuildinfo
 
 # PWA
 sw.js
 workbox-*.js
+
+# Temporary
+*.tmp
+*.temp
+.temp/
+.tmp/
+
+# Documentation généré
+BACKEND_DOCUMENTATION.md

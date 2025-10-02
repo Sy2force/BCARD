@@ -1,4 +1,8 @@
-import axios from 'axios'
+// Configuration Axios pour communiquer avec le backend
+// Gère automatiquement les tokens JWT et les erreurs
+
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5001/api',
@@ -8,14 +12,16 @@ const axiosInstance = axios.create({
   withCredentials: true,
 })
 
-// Request interceptor to add token
+// Intercepteur pour ajouter le token JWT à chaque requête
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token')
+    // Récupérer le token depuis localStorage
+    const token = localStorage.getItem('token');
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+      // Ajouter le token dans le header Authorization
+      config.headers.Authorization = `Bearer ${token}`;
     }
-    return config
+    return config;
   },
   (error) => {
     return Promise.reject(error)
