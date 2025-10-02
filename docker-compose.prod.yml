@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: facework-db-prod
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: facework
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - facework-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: facework-backend-prod
+    restart: always
+    environment:
+      NODE_ENV: production
+      MONGODB_URI: mongodb://admin:${MONGO_PASSWORD}@mongodb:27017/facework?authSource=admin
+      JWT_SECRET: ${JWT_SECRET}
+      FRONTEND_URL: ${FRONTEND_URL}
+    depends_on:
+      - mongodb
+    networks:
+      - facework-network
+    ports:
+      - "5001:5001"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+    container_name: facework-frontend-prod
+    restart: always
+    depends_on:
+      - backend
+    networks:
+      - facework-network
+    ports:
+      - "80:80"
+
+volumes:
+  mongo-data:
+
+networks:
+  facework-network:
+    driver: bridge

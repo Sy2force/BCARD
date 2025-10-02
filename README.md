@@ -67,13 +67,19 @@ PROCARDS/
 │   ├── tests/              # Tests frontend (Vitest)
 │   └── Dockerfile
 │
-├── docker-compose.yml     # Lancement des services (MongoDB, front, back)
-└── README.md              # Ce fichier
+├── docker-compose.yml      # Lancement des services (MongoDB, front, back)
+├── docker-compose.prod.yml # Configuration Docker pour production
+├── LICENSE                 # Licence MIT du projet
+└── README.md               # Ce fichier
 ```
 
 ---
 
 ## Installation rapide
+
+> **Note**: Le fichier `vercel.json` se trouve dans le répertoire `frontend/` pour la configuration du déploiement Vercel.
+
+## Installation
 
 ### Prérequis
 
@@ -130,6 +136,8 @@ Accessible sur `http://localhost:5173`
 
 ## Lancement avec Docker
 
+### Développement
+
 ```bash
 docker-compose up --build
 ```
@@ -142,6 +150,16 @@ Cela démarre automatiquement :
 Pour arrêter :
 ```bash
 docker-compose down
+```
+
+### Production
+
+```bash
+# Créer un fichier .env avec les variables de production
+cp .env.example .env.prod
+
+# Lancer en mode production
+docker-compose -f docker-compose.prod.yml up --build -d
 ```
 
 ---
