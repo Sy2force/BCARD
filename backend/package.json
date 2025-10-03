@@ -12,10 +12,13 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint src/**/*.ts --fix",
     "format": "prettier --write src/**/*.ts",
     "clean": "rm -rf dist",
-    "prebuild": "npm run clean"
+    "prebuild": "npm run clean",
+    "postinstall": "npm run build",
+    "docker:build": "docker build -t facework-backend .",
+    "docker:run": "docker run -p 5001:5001 --env-file .env facework-backend"
   },
   "keywords": [
     "professional-network",
