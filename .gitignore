@@ -1,96 +1,24 @@
-# === DEPENDENCIES ===
+# Node
 node_modules/
-package-lock.json
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-.pnpm-debug.log*
-
-# === BUILD OUTPUTS ===
 dist/
 build/
-out/
-.next/
-.nuxt/
-*.tsbuildinfo
-
-# === ENVIRONMENT VARIABLES ===
 .env
-.env.local
-.env.test
-.env.production
-.env.development
+.env.*
+!.env.example
+npm-debug.log*
+yarn-error.log*
+package-lock.json
 
-# === CACHE DIRECTORIES ===
-.cache/
-.parcel-cache/
-.turbo/
+# Vercel / Render / Playwright
 .vercel/
 .render/
-.npm/
-.eslintcache
-.rpt2_cache/
-.rts2_cache_*/
-node_modules/.cache/
-
-# === TESTING ===
-coverage/
-*.lcov
-.nyc_output/
-
-# === LOGS ===
-logs/
-*.log
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-
-# === RUNTIME ===
-pids/
-*.pid
-*.seed
-*.pid.lock
-
-# === TEMPORARY FILES ===
-tmp/
-temp/
-*.tmp
-*.temp
-.temp/
-.tmp/
-
-# === IDE & OS ===
-.vscode/
-.idea/
-*.swp
-*.swo
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# === PWA FILES ===
-sw.js
-workbox-*.js
-
-# === PACKAGE MANAGERS ===
-.yarn-integrity
-*.tgz
-.pnpm-store/
-
-# === DOCUMENTATION TEMP ===
-BACKEND_DOCUMENTATION.md
-README_DEPLOY.md
-render-setup.md
-ANALYSE_COMPLETE.md
-
-# === DOCKER ===
-mongodb-data/
-
-# === PLAYWRIGHT ===
+.cache/
+.turbo/
 playwright-report/
+coverage/
+mongodb-data/
 test-results/
-playwright/.cache/
+
+# OS
+.DS_Store
+Thumbs.db
