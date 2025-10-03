@@ -88,5 +88,9 @@ render-setup.md
 ANALYSE_COMPLETE.md
 
 # === DOCKER ===
-.dockerignore
 mongodb-data/
+
+# === PLAYWRIGHT ===
+playwright-report/
+test-results/
+playwright/.cache/
