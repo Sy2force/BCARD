@@ -2,19 +2,34 @@ import request from 'supertest';
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+
+// Import middleware
+import errorHandler from '../src/middleware/errorHandler';
 
 // Create test app
 const app = express();
+app.use(helmet());
+app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Import routes
 import userRoutes from '../src/routes/users.routes';
 app.use('/api/users', userRoutes);
 
+// Error handler (must be last)
+app.use(errorHandler);
+
 let mongoServer: MongoMemoryServer;
 
 describe('Users API', () => {
   beforeAll(async () => {
+    // Set environment variables for tests
+    process.env.JWT_SECRET = 'test_jwt_secret_key_for_testing_only_32_chars';
+    process.env.NODE_ENV = 'test';
+    
     mongoServer = await MongoMemoryServer.create();
     const mongoUri = mongoServer.getUri();
     await mongoose.connect(mongoUri);
